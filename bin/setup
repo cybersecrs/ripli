@@ -1,14 +1,8 @@
-#!/usr/bin/env bash
-set -euo pipefail
-IFS=$'\n\t'
-set -vx
+#!/usr/bin/bash
 
-bundle install
-
-if command -v proxychains
-  then echo "Proxychains installed!"
-else
-  echo -n "Installing Proxychains ... ";
-  sudo apt install proxychains -y;
-  echo "done!"
+if command -v proxychains; then
+  sleep 0.5; else
+sudo apt install proxychains -y
 fi
+
+gem install mechanize

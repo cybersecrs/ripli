@@ -22,16 +22,16 @@ git clone https://www.github.com/cybersecrs/ripli && cd ripli && bin/setup
 This will download gem from github, and install dependecies. What it actually install is
 `gem 'mechanize'` and `proxychains` if not installed.
   
-To install gem on local machine run:
+If you want to build a gem, run:
 
 ```bash
-bundle exec rake install
+gem build clit.gemspec
 ```
 
 ---
 ## Usage
 
-In root folder `get-ripli.rb` execute classes and download *proxychains lists.* There's just one class atm,
+Executing `bin/ripli.rb` start scrap and download *proxychains lists.* There's just one class atm,
 it's `Ripli::ProxyScrape`, which download `https, socks4 & socks5` from https://www.proxyscrape.com .
 
 Ripli create temp files, scrap proxies, then rewrite it to proxychains format and copy to new file.
@@ -59,9 +59,8 @@ Contributors are expected to adhere to the [code of conduct](https://github.com/
 ---
 ## Contact
 
- - E-mail address:     linuxander@secmail.pro  
+ - E-mail address:     linuxander88@gmail.com  
  - GitHub Page:        [Ripli web page](https://www.cybersecrs.github.io/ripli)  
- - Instagram profile:  [@cybersecrs](https://instagram.com/@cybersecrs)  
  - PGP key:             
 ```
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -122,8 +121,3 @@ CMkDfMiEODLGbsWXBmZkcWXEnuovIoCUbJE+8K6EVGTO
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
----
-## Code of Conduct
-
-Everyone interacting in the Ripli project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/cybersecrs/ripli/blob/master/CODE_OF_CONDUCT.md).
