@@ -30,8 +30,9 @@
 #                                                                                #
 ##################################################################################
 
-require_relative "ripli/version"
-require_relative "ripli/proxyscrape"
+require_relative 'ripli/version'
+require_relative 'ripli/proxyscrape'
+require_relative 'ripli/hidemyname'
 
 module Ripli
 
