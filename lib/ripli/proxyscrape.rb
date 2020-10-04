@@ -1,36 +1,6 @@
-# encoding: utf-8
-#================================================================================#
-#                      Ruby Proxychains List Downloader                          #
-#--------------------------------------------------------------------------------#
-#                                                                                #
-#   ************************                                                     #
-#   *                      *                                                     #
-#   *  [Ripli] Downloader  *  by Cybersec-RS                                     #
-#   *                      *                                                     #
-#   ************************                                                     #
-#                                                                                #
-#  ============================================================================  #
-#      Version: [0.1.0]   -   https://www.github.com/cybersecrs/ripli            #
-#  ============================================================================  #
-#                                                                                #
-#       Author: Linuxander                                                       #
-#                                                                                #
-#  Description: Project for HACKTOBERFEST-2020                                   #
-#               Scrap the internet for free elite proxy servers                  #
-#                                                                                #
-#               + Save them in Proxychains type (socks5  ip  port)               #   
-#               + Each class should scrap one web site                           #
-#               + Maximum timeout is 1000ms                                      #
-#               + Should add tests for country, data leak, privacy               #
-#                                                                                #
-#         Note: Please follow Hacktoberfest rules about pull requests!           #
-#                                                                                #
-#      ====================================================================      #
-#                    HAPPY HACKING & MAKE IT OPEN SOURCE !!!                     #
-#      ====================================================================      #
-#                                                                                #
-##################################################################################
-
+# Ripli - Ruby Proxychains List Scrapper
+# Project created for Hacktoberfest-2020
+# @cybersecrs
 
 require 'mechanize'
 
@@ -57,15 +27,6 @@ module Ripli
     args.count.times { |x| print args[x] }
   end
 
-#  Print proxy type
-
-  def printer
-    print "\n================================================\n";
-    print "[#{@proxy}] ".upcase
-    print "proxychains list downloaded\n"
-    print "================================================\n\n";
-  end
-
 #  Proxy type 
 
   def proxy(type)
@@ -85,14 +46,12 @@ module Ripli
     temp << Mechanize.new.get(link).body
     File.write("#{@home}/#{@proxy}.tmp.txt", "#{temp}")
     @chain_list = File.open("#{@home}/#{@proxy}.txt", "wb")
-    printer
 
     File.readlines("#{@home}/#{@proxy}.tmp.txt").each { |line| 
       @chain_list << "#{@proxy}\t#{line.to_s.gsub!(":", "\t\t")}"
       @c += 1
       printargs("#{@proxy}\t", "#{line}") }
     File.delete("#{@home}/#{@proxy}.tmp.txt")
-    printargs("\n#{@c} ", "#{@proxy} ", "proxies downloaded\n")
     @total += @c
   end  
 
@@ -112,9 +71,6 @@ module Ripli
       ARGV.count.times { |x| get(ARGV[x]) }
     end
   end
- 
 
  end
-end                                                         # END OF CLASS
-#================================================================================#
-
+end                                                         
