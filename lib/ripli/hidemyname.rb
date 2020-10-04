@@ -3,7 +3,9 @@
 require 'mechanize'
 
 module Ripli
+
   class HideMyName
+
     LOG_DIR = 'log'
     DEFAULT_MAX_TIMEOUT = 1000
     PROXIES_ON_PAGE = 64
@@ -40,7 +42,7 @@ module Ripli
 
     def save_proxy_chains(type)
       File.open("#{@dir}/#{type}.txt", 'wb') do |file|
-        parse(type).uniq.each { |proxy| file << "#{proxy}\n" }
+        parse(type).uniq.each { |proxy| file << "#{proxy}\n"; puts proxy }
       end
     end
 
@@ -65,7 +67,6 @@ module Ripli
         "#{@type}\t#{ip}\t\t#{port}"
       end
     end
+
   end
 end
-
-Ripli::HideMyName.new.shell_exec!
