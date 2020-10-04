@@ -15,8 +15,7 @@ module Ripli
       @logger = Logger.new(STDOUT)
     end
 
-    def shell_exec! # TODO: change logic of parsing arguments
-      types = ARGV.empty? ? %w[https socks4 socks5] : ARGV
+    def shell_exec!(types)
       types.each(&method(:save_proxy_chains))
     end
 
