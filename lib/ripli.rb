@@ -1,1 +1,2 @@
-require_relative 'ripli/proxyscrape.rb'
+require_relative 'ripli/proxyscrape'
+require_relative 'ripli/hidemyname'
