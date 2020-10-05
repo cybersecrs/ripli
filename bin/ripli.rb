@@ -5,3 +5,4 @@ require 'pry'
 
 Ripli::ProxyScrape.new.shell_exec!
 Ripli::HideMyName.new.shell_exec!
+Ripli::ProxyScan.new.shell_exec!
