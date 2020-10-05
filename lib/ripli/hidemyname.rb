@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'customparser'
+require 'mechanize'
 
 module Ripli
-  class HideMyName < CustomParser
+
+  class HideMyName
+
+    LOG_DIR = 'log'
+    DEFAULT_MAX_TIMEOUT = 1000
     PROXIES_ON_PAGE = 64
     THREADS_COUNT = 3
     PROXY_TYPES_ON_SITE = {
@@ -12,6 +16,17 @@ module Ripli
       socks5: '5'
     }.freeze
     BASE_URL = 'https://hidemy.name/ru/proxy-list/?maxtime=%<max_timeout>d&type=%<type>s&anon=34&start=%<start>d#list'
+
+    def initialize
+      @dir = "#{LOG_DIR}/#{self.class.name.split('::').last.downcase}"
+      Dir.mkdir(LOG_DIR) unless Dir.exist?(LOG_DIR)
+      Dir.mkdir(@dir) unless Dir.exist?(@dir)
+    end
+
+    def shell_exec!
+      types = ARGV.empty? ? %w[https socks4 socks5] : ARGV
+      types.each(&method(:save_proxy_chains))
+    end
 
     def parse(type, opts = {})
       @type ||= type
@@ -23,6 +38,12 @@ module Ripli
       proxies = extract_proxies(doc)
       proxies += paginate(doc) if opts[:start].to_i.zero?
       proxies
+    end
+
+    def save_proxy_chains(type)
+      File.open("#{@dir}/#{type}.txt", 'wb') do |file|
+        parse(type).uniq.each { |proxy| file << "#{proxy}\n"; puts proxy }
+      end
     end
 
     private
@@ -46,5 +67,6 @@ module Ripli
         "#{@type}\t#{ip}\t\t#{port}"
       end
     end
+
   end
 end
