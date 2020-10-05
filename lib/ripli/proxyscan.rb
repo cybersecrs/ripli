@@ -45,7 +45,7 @@ module Ripli
 
     File.readlines("#{@dir}/#{@proxy}.tmp.txt").each { |line| 
       @chain_list << "#{@proxy}\t#{line.to_s.gsub!(":", "\t\t")}"
-      printargs("#{@proxy}\t", "#{line}") }
+        print "#{@proxy}\t#{line}" }
     File.delete("#{@dir}/#{@proxy}.tmp.txt")
   end  
 
