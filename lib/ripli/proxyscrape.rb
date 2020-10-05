@@ -9,22 +9,19 @@ module Ripli
 
  class ProxyScrape
 
+    LOG_DIR  = "log"
     BASE_URL = "https://api.proxyscrape.com/?request=getproxies&proxytype="
 
 #  Links to download proxy
 
   def initialize
     @total   =  0
-    @home    =  "log"; Dir.mkdir(@home) unless Dir.exist?(@home)
     @https   =  "#{BASE_URL}https&timeout=1000&country=all&ssl=all&anonymity=all"
     @socks4  =  "#{BASE_URL}socks4&timeout=1000&country=all"
     @socks5  =  "#{BASE_URL}socks5&timeout=1000&country=all"
-  end
-
-#  Print multiple arguments
-
-  def printargs(*args)
-    args.count.times { |x| print args[x] }
+    @dir     =  "#{LOG_DIR}/#{self.class.name.split('::').last.downcase}"
+    Dir.mkdir(LOG_DIR) unless Dir.exist?(LOG_DIR)
+    Dir.mkdir(@dir) unless Dir.exist?(@dir)
   end
 
 #  Proxy type 
@@ -41,25 +38,21 @@ module Ripli
 #  Get Proxies
 
   def get_proxy(link)
-    @c   = 0
     temp = ""
     temp << Mechanize.new.get(link).body
-    File.write("#{@home}/#{@proxy}.tmp.txt", "#{temp}")
-    @chain_list = File.open("#{@home}/#{@proxy}.txt", "wb")
+    File.write("#{@dir}/#{@proxy}.tmp.txt", "#{temp}")
+    @chain_list = File.open("#{@dir}/#{@proxy}.txt", "wb")
 
-    File.readlines("#{@home}/#{@proxy}.tmp.txt").each { |line| 
+    File.readlines("#{@dir}/#{@proxy}.tmp.txt").each { |line| 
       @chain_list << "#{@proxy}\t#{line.to_s.gsub!(":", "\t\t")}"
-      @c += 1
       printargs("#{@proxy}\t", "#{line}") }
-    File.delete("#{@home}/#{@proxy}.tmp.txt")
-    @total += @c
+    File.delete("#{@dir}/#{@proxy}.tmp.txt")
   end  
 
 #  Execute proxy scrap
 
   def get(*types)
     types.count.times { |x| proxy(types[x]) }
-    printargs("\n#{@total} ", "proxies downloaded from ProxyScrape.com\n\n")
   end
 
 #  Execute from shell, args as proxy-types
