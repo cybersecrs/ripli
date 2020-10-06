@@ -15,9 +15,11 @@ module Ripli
     def parse(type, opts = {})
       max_timeout = opts[:max_timeout] || DEFAULT_MAX_TIMEOUT
       link = [BASE_URL, URL_PARAMS[type] % max_timeout].join
-      response = Mechanize.new.get(link).body
+      response = @mechanize.get(link).body
 
       response.split.map { |proxy| "#{type}\t#{proxy.sub(':', "\t\t")}" }
+    rescue Net::OpenTimeout, Net::ReadTimeout
+      @log.error '[ProxyScrape] Sorry, site is unavailable!'
     end
   end
 end

@@ -7,9 +7,14 @@ module Ripli
   class CustomParser
     LOG_DIR = 'log'
     DEFAULT_MAX_TIMEOUT = 1000
+    DEFAULT_MECHANIZE_TIMEOUT = 10
 
     def initialize
       @dir = "#{LOG_DIR}/#{self.class.name.split('::').last.downcase}"
+      @mechanize = Mechanize.new do |agent|
+        agent.open_timeout = DEFAULT_MECHANIZE_TIMEOUT
+        agent.read_timeout = DEFAULT_MECHANIZE_TIMEOUT
+      end
       Dir.mkdir(LOG_DIR) unless Dir.exist?(LOG_DIR)
       Dir.mkdir(@dir) unless Dir.exist?(@dir)
       @logger = Logger.new(STDOUT)

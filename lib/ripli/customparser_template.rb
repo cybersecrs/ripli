@@ -17,6 +17,7 @@ module Ripli
     # or perform some preparations (creating directories, etc)
     def initialize
       super # required for creating logger and directory
+      # define @mechanize = Mechanize.new { |agent| agent.open_timeout...} if you need add some options to mechanize agent
       # your code here
     end
 
@@ -27,7 +28,10 @@ module Ripli
     # return -- array of stings in format: "<type>\t<ip>\t\t<port>"
     def parse(type, opts = {})
       []
+      # for downloading use @mechanize.get(url)
       @logger.info 'Use @logger for print logs in STDOUT'
+    rescue Net::OpenTimeout, Net::ReadTimeout
+      # rescue exception during downloading page, DEFAULT_MECHANIZE_TIMEOUT=10s
     end
 
     # If you need additional logic of creating files
