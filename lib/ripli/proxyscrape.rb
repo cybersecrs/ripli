@@ -49,6 +49,7 @@ module Ripli
     File.delete("#{@dir}/#{@proxy}.tmp.txt")
   end  
 
+<<<<<<< HEAD
 #  Execute proxy scrap
 
   def get(*types)
@@ -62,6 +63,16 @@ module Ripli
       get("https", "socks4", "socks5")
     else
       ARGV.count.times { |x| get(ARGV[x]) }
+=======
+    def parse(type, opts = {})
+      max_timeout = opts[:max_timeout] || DEFAULT_MAX_TIMEOUT
+      link = [BASE_URL, URL_PARAMS[type] % max_timeout].join
+      response = @mechanize.get(link).body
+
+      response.split.map { |proxy| "#{type}\t#{proxy.sub(':', "\t\t")}" }
+    rescue Net::OpenTimeout, Net::ReadTimeout
+      @log.error '[ProxyScrape] Sorry, site is unavailable!'
+>>>>>>> 44098c595dea793bb8e23ee4db3184e13737bb6e
     end
   end
 

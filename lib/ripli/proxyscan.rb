@@ -1,39 +1,28 @@
-# Ripli - Ruby Proxychains List Scrapper
-# Project created for Hacktoberfest-2020
-# @cybersecrs
+# frozen_string_literal: true
 
-require 'mechanize'
-
+require_relative 'customparser'
 
 module Ripli
+  class ProxyScan < CustomParser
+    BASE_URL = 'https://www.proxyscan.io/download?type='
 
- class ProxyScan
+    URL_PARAMS = {
+      https: 'https&timeout=%d&country=all&ssl=all&anonymity=all',
+      socks4: 'socks4&timeout=%d&country=all',
+      socks5: 'socks5&timeout=%d&country=all'
+    }.freeze
 
-    LOG_DIR  = "log"
-    BASE_URL = "https://www.proxyscan.io/download?type="
+    def parse(type, opts = {})
+      max_timeout = opts[:max_timeout] || DEFAULT_MAX_TIMEOUT
+      link = [BASE_URL, URL_PARAMS[type] % max_timeout].join
+      response = @mechanize.get(link).body
 
-#  Links to download proxy
-
-  def initialize
-    @total   =  0
-    @https   =  "#{BASE_URL}https"
-    @socks4  =  "#{BASE_URL}socks4"
-    @socks5  =  "#{BASE_URL}socks5"
-    @dir     =  "#{LOG_DIR}/#{self.class.name.split('::').last.downcase}"
-    Dir.mkdir(LOG_DIR) unless Dir.exist?(LOG_DIR)
-    Dir.mkdir(@dir) unless Dir.exist?(@dir)
-  end
-
-#  Proxy type 
-
-  def proxy(type)
-    @proxy = type
-    case @proxy 
-      when "https"  then get_proxy(@https)
-      when "socks4" then get_proxy(@socks4)
-      when "socks5" then get_proxy(@socks5)   
+      response.split.map { |proxy| "#{type}\t#{proxy.sub(':', "\t\t")}" }
+    rescue Net::OpenTimeout, Net::ReadTimeout
+      @log.error '[ProxyScrape] Sorry, site is unavailable!'
     end
   end
+<<<<<<< HEAD
 
 #  Get Proxies
 
@@ -67,3 +56,6 @@ module Ripli
 
  end
 end                                                         
+=======
+end
+>>>>>>> 44098c595dea793bb8e23ee4db3184e13737bb6e

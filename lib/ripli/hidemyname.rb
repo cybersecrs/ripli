@@ -34,10 +34,12 @@ module Ripli
                    max_timeout: opts[:max_timeout] || DEFAULT_MAX_TIMEOUT,
                    type: PROXY_TYPES_ON_SITE[type.to_sym],
                    start: opts[:start] || 0)
-      doc = Mechanize.new.get(url)
+      doc = @mechanize.get(url)
       proxies = extract_proxies(doc)
       proxies += paginate(doc) if opts[:start].to_i.zero?
       proxies
+    rescue Net::OpenTimeout, Net::ReadTimeout
+      @log.error '[HideMyName] Sorry, site is unavailable!'
     end
 
     def save_proxy_chains(type)
@@ -60,10 +62,8 @@ module Ripli
       doc.xpath('//table/tbody/tr').map do |proxy_node|
         ip   = proxy_node.at_xpath('./td[1]')&.text
         port = proxy_node.at_xpath('./td[2]')&.text
-        if ip.nil? || port.nil?
-          puts 'Empty proxy find in site!'
-          next
-        end
+        next if ip.nil? || port.nil?
+
         "#{@type}\t#{ip}\t\t#{port}"
       end
     end
