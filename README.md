@@ -43,7 +43,6 @@ When Ripli::ProxyScrape is started, folder `log` is created in script root.
 
 Ripli is imagined to be a module with separate classes for each proxy site. Every site is different,
 and to keep it simple and extendable each class must run and save separate lists based on proxy type.
-For easier maintenance copy and customparser_template.rb for creating your scraper.
   
 Proxies from proxyscrape.com have max timeout of 1000ms, elite only, and other classes should follow the same vector.
 Functions that will be added during October will check each proxy for country, anonymity, dns-leak and *bad-proxy*.
