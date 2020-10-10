@@ -6,7 +6,7 @@ require_relative 'ripli/proxyscan'
     def list(*proxy)
       proxy.each { |type| @list = ""
       Dir.glob(File.join('**', "#{type}.txt")).each { |file|
-      File.readlines(file).each { |line| @list << line; puts line }
+      File.readlines(file).each { |line| @list << line }
       File.write("log/#{type}.list", "#{@list}") } }
     end
   end
