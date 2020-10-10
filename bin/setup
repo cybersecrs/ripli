@@ -1,8 +1,7 @@
 #!/usr/bin/bash
 
-if command -v proxychains; then
-  sleep 0.5; else
-sudo apt install proxychains -y
-fi
+  if !command -v proxychains; then
+    sudo apt install proxychains -y
+  fi
 
-gem install mechanize
+  bundle install

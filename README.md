@@ -13,45 +13,39 @@ What Ripli will do, and how to help and contribute, read below.
 ---
 ## Installation
 
-Ripli is not uploaded on rubygems, get it from GitHub:
-
 ```bash
 git clone https://www.github.com/cybersecrs/ripli && cd ripli && bin/setup
 ```
 
 This will download gem from github, and install dependecies. What it actually install is
-`gem 'mechanize'` and `proxychains` if not installed.
-  
-If you want to build a gem, run:
-
-```bash
-gem build clit.gemspec
-```
+`gem 'mechanize', gem 'optimist'` and `proxychains` if not installed.
 
 ---
 ## Usage
 
-Executing `bin/ripli.rb` start scrap and download *proxychains lists.* There's just one class atm,
-it's `Ripli::ProxyScrape`, which download `https, socks4 & socks5` from https://www.proxyscrape.com .
-
-Ripli create temp files, scrap proxies, then rewrite it to proxychains format and copy to new file.
-At the moment Ripli don't use `gem 'tempfile'`, it will be added with more classes.
-When Ripli::ProxyScrape is started, folder `log` is created in script root.
+Executing `bin/ripli.rb` start scrap and download *proxychains lists.* Log folder is created
+inside root directory, containing folders with proxy lists for each scrapped site. At the end,
+proxy lists are combined from all sources, again separated by type, inside log directory.
 
 ---
 ## Development
 
-Ripli is imagined to be a module with separate classes for each proxy site. Every site is different,
-and to keep it simple and extendable each class must run and save separate lists based on proxy type.
+Ripli is imagined to be a module with separate classes for each proxy site. To keep it simple and extendable each class
+must run and save separate lists based on proxy type.
   
-Proxies from proxyscrape.com have max timeout of 1000ms, elite only, and other classes should follow the same vector.
-Functions that will be added during October will check each proxy for country, anonymity, dns-leak and *bad-proxy*.
+Proxies max timeout is 1000ms, elite only.
+
+---
+## TO-DO
+
+ * Check each proxy for country, anonymity, dns-leak and *bad-proxy*.
+ * Write tutorials in Serbian language about web scrapping with Ruby
 
 ---
 ## Contributing
 
 This project is designed for [HACKTOBERFEST-2020](https://hacktoberfest.digitalocean.com/), starting from *OCTOBER, 3TH*.  
-Pull requests will be accepted on GitHub at https://github.com/cybersecrs/ripli, if you follow the rules.  
+Pull requests will be accepted on GitHub at https://github.com/cybersecrs/ripli/, if you follow the rules.  
 This project is intended to be fun and simple project that explain beginners the `Power of Ruby`,  
 `internet-security basics` and `web-scrapping`, while creating something really useful for all web users.   
 Contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAMEcybersecrs/ripli/blob/master/CODE_OF_CONDUCT.md).  
